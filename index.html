@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
-    <img src="https://unpkg.com/lucide-static@latest/icons/house.svg" />
+    <link href="./src/output.css" rel="stylesheet">
 
     <style>
-         @font-face {
-    font-family: 'LucideIcons';
-    src: url(https://unpkg.com/lucide-static@latest/font/Lucide.ttf) format('truetype');
-  }
+        @font-face {
+            font-family: 'LucideIcons';
+            src: url(https://unpkg.com/lucide-static@latest/font/Lucide.ttf) format('truetype');
+        }
+
         body {
             margin: 0;
             overflow: hidden;
@@ -29,6 +30,7 @@
             0% {
                 transform: translate(0, 100vh) rotate(0deg);
             }
+
             100% {
                 transform: translate(var(--translateX), -100vh) rotate(var(--rotation));
             }
@@ -143,9 +145,17 @@
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         .play-btn.playing {
@@ -154,119 +164,128 @@
         }
     </style>
 </head>
+
 <body>
-    <div className="max-w-lg mx-auto p-6 bg-white rounded-sm border border-red-100 text-center">
-        <p className="text-lg text-gray-700 font-light leading-relaxed">
-          "En cada latido de mi corazón, encuentro un nuevo motivo para amarte"
-        </p>
-        <div className="mt-4 flex justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+    <div class="max-w-lg mx-auto p-6 bg-white rounded-sm border border-red-100 text-center">
+        <div class="mt-4 flex justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="#ff0000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="lucide lucide-heart">
+                <path
+                    d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+            </svg>
+        </div>
+        <p class="text-lg text-gray-700 font-light leading-relaxed">
+            Hola hermosa, preciosa, espero que con esto te este sacando una hermosa sonrisa, me encanta verte sonreir, esta es la razón por la que me estaba tardando un poco en contestarte, ya casí es 14 de febrero, por lo que estas cordialmente invitada este 14 de febrero a que salgamos a pasear tomados de la mano y comer algo pa celebrar la fecha 🫶
+        </p> 
+        <img  class="w-48 m-auto" src="https://i.pinimg.com/originals/b2/c8/5b/b2c85bda67c05e092c5c0d53aeda26f7.gif" alt="snoopy img">
+        </div>
+        <div class="music-player">
+            <button class="play-btn" id="playBtn">♪</button>
+            <div class="song-info">
+                <p class="song-title">Forever</p>
+                <p class="artist-name">The Little Dippers</p>
+            </div>
+            <div class="volume-container">
+                <span class="volume-icon">🔊</span>
+                <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
+            </div>
         </div>
 
-    <div class="music-player">
-        <button class="play-btn" id="playBtn">♪</button>
-        <div class="song-info">
-            <p class="song-title">Perfect</p>
-            <p class="artist-name">Ed Sheeran</p>
-        </div>
-        <div class="volume-container">
-            <span class="volume-icon">🔊</span>
-            <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
-        </div>
-    </div>
+        <script>
+            function createFloatingHearts() {
+                const colors = [
+                    'rgba(255, 107, 107, 0.1)',  // Rojo suave
+                    'rgba(240, 101, 149, 0.1)',  // Rosa
+                    'rgba(204, 93, 232, 0.1)',   // Púrpura
+                    'rgba(255, 182, 193, 0.1)'   // Rosa claro
+                ];
 
-    <script>
-        function createFloatingHearts() {
-            const colors = [
-                'rgba(255, 107, 107, 0.1)',  // Rojo suave
-                'rgba(240, 101, 149, 0.1)',  // Rosa
-                'rgba(204, 93, 232, 0.1)',   // Púrpura
-                'rgba(255, 182, 193, 0.1)'   // Rosa claro
-            ];
+                for (let i = 0; i < 15; i++) {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.textContent = '♥';
 
-            for (let i = 0; i < 15; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'floating-heart';
-                heart.textContent = '♥';
-                
-                // Posición inicial aleatoria en X
-                const startX = Math.random() * window.innerWidth;
-                heart.style.left = startX + 'px';
-                
-                // Tamaño aleatorio pero proporcionado
-                const size = Math.random() * 20 + 15;
-                heart.style.fontSize = size + 'px';
-                
-                // Color aleatorio de nuestra paleta
-                heart.style.color = colors[Math.floor(Math.random() * colors.length)];
-                
-                // Variables de animación personalizadas
-                const translateX = (Math.random() - 0.5) * 200; // Movimiento lateral
-                const rotation = Math.random() * 180 - 90;      // Rotación suave
-                heart.style.setProperty('--translateX', translateX + 'px');
-                heart.style.setProperty('--rotation', rotation + 'deg');
-                
-                // Configurar la animación
-                heart.style.animation = `floatUpAndSway ${Math.random() * 10 + 15}s linear infinite`;
-                heart.style.animationDelay = `-${Math.random() * 15}s`; // Inicio escalonado
-                
-                document.body.appendChild(heart);
-            }
-        }
+                    // Posición inicial aleatoria en X
+                    const startX = Math.random() * window.innerWidth;
+                    heart.style.left = startX + 'px';
 
-        // Crear corazones iniciales
-        createFloatingHearts();
+                    // Tamaño aleatorio pero proporcionado
+                    const size = Math.random() * 20 + 15;
+                    heart.style.fontSize = size + 'px';
 
-        class MinimalMusicPlayer {
-            constructor() {
-                this.audio = new Audio();
-                this.audio.src = '/The Little Dippers - Forever (Single Version).flac';
-                this.isPlaying = false;
-                this.lastVolume = 0.5;
-                
-                this.initializeControls();
-                this.setupEventListeners();
-            }
+                    // Color aleatorio de nuestra paleta
+                    heart.style.color = colors[Math.floor(Math.random() * colors.length)];
 
-            initializeControls() {
-                this.playBtn = document.getElementById('playBtn');
-                this.volumeSlider = document.getElementById('volumeSlider');
-                this.audio.volume = this.lastVolume;
-            }
+                    // Variables de animación personalizadas
+                    const translateX = (Math.random() - 0.5) * 200; // Movimiento lateral
+                    const rotation = Math.random() * 180 - 90;      // Rotación suave
+                    heart.style.setProperty('--translateX', translateX + 'px');
+                    heart.style.setProperty('--rotation', rotation + 'deg');
 
-            setupEventListeners() {
-                this.playBtn.addEventListener('click', () => this.togglePlay());
-                this.volumeSlider.addEventListener('input', (e) => {
-                    const volume = e.target.value / 100;
-                    this.audio.volume = volume;
-                    this.lastVolume = volume;
-                    this.updateVolumeIcon(volume);
-                });
-            }
+                    // Configurar la animación
+                    heart.style.animation = `floatUpAndSway ${Math.random() * 10 + 15}s linear infinite`;
+                    heart.style.animationDelay = `-${Math.random() * 15}s`; // Inicio escalonado
 
-            togglePlay() {
-                if (this.isPlaying) {
-                    this.audio.pause();
-                    this.playBtn.textContent = '♪';
-                    this.playBtn.classList.remove('playing');
-                } else {
-                    this.audio.play();
-                    this.playBtn.textContent = '◉';
-                    this.playBtn.classList.add('playing');
+                    document.body.appendChild(heart);
                 }
-                this.isPlaying = !this.isPlaying;
             }
 
-            updateVolumeIcon(volume) {
-                const volumeIcon = document.querySelector('.volume-icon');
-                if (volume === 0) volumeIcon.textContent = '🔇';
-                else if (volume < 0.3) volumeIcon.textContent = '🔈';
-                else if (volume < 0.7) volumeIcon.textContent = '🔉';
-                else volumeIcon.textContent = '🔊';
-            }
-        }
+            // Crear corazones iniciales
+            createFloatingHearts();
 
-        const player = new MinimalMusicPlayer();
-    </script>
+            class MinimalMusicPlayer {
+                constructor() {
+                    this.audio = new Audio();
+                    this.audio.src = '/The Little Dippers - Forever (Single Version).flac';
+                    this.isPlaying = false;
+                    this.lastVolume = 0.5;
+
+                    this.initializeControls();
+                    this.setupEventListeners();
+                    this.audio.play()
+                }
+
+                initializeControls() {
+                    this.playBtn = document.getElementById('playBtn');
+                    this.volumeSlider = document.getElementById('volumeSlider');
+                    this.audio.volume = this.lastVolume;
+                }
+
+                setupEventListeners() {
+                    this.playBtn.addEventListener('click', () => this.togglePlay());
+                    this.volumeSlider.addEventListener('input', (e) => {
+                        const volume = e.target.value / 100;
+                        this.audio.volume = volume;
+                        this.lastVolume = volume;
+                        this.updateVolumeIcon(volume);
+                    });
+                }
+
+                togglePlay() {
+                    if (this.isPlaying) {
+                        this.audio.pause();
+                        this.playBtn.textContent = '♪';
+                        this.playBtn.classList.remove('playing');
+                    } else {
+                        this.audio.play();
+                        this.playBtn.textContent = '◉';
+                        this.playBtn.classList.add('playing');
+                    }
+                    this.isPlaying = !this.isPlaying;
+                }
+
+                updateVolumeIcon(volume) {
+                    const volumeIcon = document.querySelector('.volume-icon');
+                    if (volume === 0) volumeIcon.textContent = '🔇';
+                    else if (volume < 0.3) volumeIcon.textContent = '🔈';
+                    else if (volume < 0.7) volumeIcon.textContent = '🔉';
+                    else volumeIcon.textContent = '🔊';
+                }
+            }
+
+            const player = new MinimalMusicPlayer();
+        </script>
 </body>
+
 </html>
